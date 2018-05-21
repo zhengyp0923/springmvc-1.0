@@ -1,8 +1,10 @@
 package cn.zyp.web.servlet.viewResolver;
 
+import cn.zyp.web.servlet.exception.ViewNotFoundException;
 import cn.zyp.web.servlet.view.InternalResourceView;
 import cn.zyp.web.servlet.view.RedirectView;
 import cn.zyp.web.servlet.view.View;
+import org.springframework.util.StringUtils;
 
 public class UrlBasedViewResolver extends AbstractCachingViewResolver {
     private static final String REDIRECT_PREFIX = "redirect:";
@@ -14,6 +16,10 @@ public class UrlBasedViewResolver extends AbstractCachingViewResolver {
      * @return
      */
     protected View createView(String viewName) {
+        if(StringUtils.isEmpty(viewName)){
+            throw new ViewNotFoundException("viewName is empty");
+        }
+
         View view = null;
         //重定向
         if (viewName.startsWith(REDIRECT_PREFIX)) {

@@ -35,6 +35,9 @@ public abstract class AbstractHandlerMapping extends WebApplicationObjectSupport
      */
     public HandlerExecution getHandler(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Object handler = getHandlerInternal(request);
+        if(handler==null){
+            return null;
+        }
 
         HandlerExecution handlerExecution = new HandlerExecution();
         handlerExecution.setHandler(handler);

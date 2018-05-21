@@ -2,6 +2,7 @@ package cn.zyp.web.servlet;
 
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,15 +43,18 @@ public class MappedInterceptor implements HandlerInterceptor {
      * @return
      */
     public boolean match(String lookup){
-        for (String ex:exIncludes){
-           if(pathMatcher.match(lookup,ex)){
-               return false;
-           }
+        if(!StringUtils.isEmpty(exIncludes)){
+            for (String ex:exIncludes){
+                if(pathMatcher.match(lookup,ex)){
+                    return false;
+                }
+            }
         }
-
-        for (String in:includes){
-            if(pathMatcher.match(lookup,in)){
-                return true;
+        if(!StringUtils.isEmpty(includes)){
+            for (String in:includes){
+                if(pathMatcher.match(lookup,in)){
+                    return true;
+                }
             }
         }
         return false;
